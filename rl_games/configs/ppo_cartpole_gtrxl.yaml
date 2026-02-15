@@ -1,0 +1,54 @@
+# CartPole with GTrXL (masked velocity to require memory)
+# Demonstrates GTrXL on a discrete action space task
+
+params:
+  algo:
+    name: a2c_discrete
+
+  model:
+    name: discrete_a2c
+
+  load_checkpoint: False
+  load_path: path
+
+  network:
+    name: gtrxl_actor_critic
+    space:
+      discrete:
+
+    gtrxl:
+      embedding_dim: 64
+      num_layers: 2
+      num_heads: 4
+      memory_length: 32
+      gru_gate_bias: 2.0
+      dropout: 0.0
+
+    initializer:
+      name: default
+
+  config:
+    env_name: CartPoleMaskedVelocity-v1
+    reward_shaper:
+      scale_value: 0.1
+    normalize_advantage: True
+    gamma: 0.99
+    tau: 0.9
+    learning_rate: 3e-4
+    name: cartpole_gtrxl
+    score_to_win: 500
+    grad_norm: 0.5
+    entropy_coef: 0.01
+    truncate_grads: True
+    e_clip: 0.2
+    clip_value: True
+    num_actors: 16
+    horizon_length: 256
+    minibatch_size: 2048
+    mini_epochs: 4
+    critic_coef: 1
+    lr_schedule: None
+    kl_threshold: 0.008
+    normalize_input: False
+    seq_length: 8
+    zero_rnn_on_done: True

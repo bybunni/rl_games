@@ -1,0 +1,68 @@
+# Pendulum with GTrXL
+# Demonstrates GTrXL on a continuous action space task
+
+params:
+  algo:
+    name: a2c_continuous
+
+  model:
+    name: continuous_a2c_logstd
+
+  load_checkpoint: False
+  load_path: path
+
+  network:
+    name: gtrxl_actor_critic
+    space:
+      continuous:
+        mu_activation: None
+        sigma_activation: None
+        mu_init:
+          name: glorot_normal_initializer
+          gain: 0.01
+        sigma_init:
+          name: const_initializer
+          val: 0
+        fixed_sigma: True
+
+    gtrxl:
+      embedding_dim: 64
+      num_layers: 2
+      num_heads: 4
+      memory_length: 32
+      gru_gate_bias: 2.0
+      dropout: 0.0
+
+    initializer:
+      name: glorot_normal_initializer
+      gain: 2
+
+  config:
+    env_name: openai_gym
+    reward_shaper:
+      scale_value: 0.01
+    normalize_advantage: True
+    gamma: 0.99
+    tau: 0.9
+    learning_rate: 3e-4
+    name: pendulum_gtrxl
+    score_to_win: 300
+    grad_norm: 0.5
+    entropy_coef: 0.0
+    truncate_grads: True
+    e_clip: 0.2
+    clip_value: False
+    num_actors: 16
+    horizon_length: 128
+    minibatch_size: 1024
+    mini_epochs: 4
+    critic_coef: 1
+    lr_schedule: adaptive
+    kl_threshold: 0.016
+    normalize_input: False
+    bounds_loss_coef: 0
+    seq_length: 8
+    zero_rnn_on_done: True
+
+    env_config:
+      name: Pendulum-v1
