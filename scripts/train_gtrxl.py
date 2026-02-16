@@ -2,12 +2,14 @@
 """Train a GTrXL policy on classic control environments.
 
 Supported environments:
-  cartpole  CartPoleMaskedVelocity-v1  (discrete, 2-dim obs, requires memory)
-  acrobot   Acrobot-v1                 (discrete, 6-dim obs, swing-up task)
+  cartpole    CartPoleMaskedVelocity-v1  (discrete, 2-dim obs, requires memory)
+  acrobot     Acrobot-v1                 (discrete, 6-dim obs, swing-up task)
+  lunarlander LunarLander-v2             (discrete, 8-dim obs, landing task)
 
 Usage:
     python scripts/train_gtrxl.py                  # default: cartpole
     python scripts/train_gtrxl.py acrobot
+    python scripts/train_gtrxl.py lunarlander
 
 Monitor training:
     tensorboard --logdir runs/
@@ -78,6 +80,41 @@ ENVS = {
                 "num_actors": 8,
                 "horizon_length": 256,
                 "minibatch_size": 1024,
+                "mini_epochs": 4,
+                "critic_coef": 1,
+                "lr_schedule": None,
+                "kl_threshold": 0.008,
+                "normalize_input": False,
+                "seq_length": 8,
+                "zero_rnn_on_done": True,
+                "max_epochs": 500,
+                "env_config": {"seed": 42},
+            },
+        },
+    },
+    "lunarlander": {
+        "params": {
+            "algo": {"name": "a2c_discrete"},
+            "model": {"name": "discrete_a2c"},
+            "load_checkpoint": False,
+            "network": _NETWORK,
+            "config": {
+                "env_name": "LunarLander-v2",
+                "reward_shaper": {"scale_value": 0.1},
+                "normalize_advantage": True,
+                "gamma": 0.99,
+                "tau": 0.95,
+                "learning_rate": 5e-4,
+                "name": "lunarlander_gtrxl",
+                "score_to_win": 200,
+                "grad_norm": 1.0,
+                "entropy_coef": 0.01,
+                "truncate_grads": True,
+                "e_clip": 0.2,
+                "clip_value": True,
+                "num_actors": 8,
+                "horizon_length": 128,
+                "minibatch_size": 512,
                 "mini_epochs": 4,
                 "critic_coef": 1,
                 "lr_schedule": None,
