@@ -10,6 +10,10 @@ from gym.wrappers import FlattenObservation, FilterObservation
 import numpy as np
 import math
 
+# NumPy 2.0 removed np.float_ which old gym envs (e.g. Acrobot) still use.
+if not hasattr(np, "float_"):
+    np.float_ = np.float64
+
 
 class HCRewardEnv(gym.RewardWrapper):
     def __init__(self, env):
