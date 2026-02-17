@@ -122,7 +122,7 @@ ENVS = {
                 "normalize_input": False,
                 "seq_length": 8,
                 "zero_rnn_on_done": True,
-                "max_epochs": 500,
+                "max_epochs": 1000,
                 "env_config": {"seed": 42},
             },
         },
