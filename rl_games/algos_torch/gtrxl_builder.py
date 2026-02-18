@@ -45,6 +45,7 @@ class GTrXLBuilder(NetworkBuilder):
                 memory_length=self.memory_length,
                 dropout=self.gtrxl_dropout,
                 gate_bias=self.gru_gate_bias,
+                ff_activation=self.ff_activation,
             )
 
             out_size = self.embedding_dim
@@ -219,6 +220,7 @@ class GTrXLBuilder(NetworkBuilder):
             self.gtrxl_num_layers = gtrxl_params.get('num_layers', 3)
             self.num_heads = gtrxl_params.get('num_heads', 8)
             self.d_ff = gtrxl_params.get('d_ff', None)  # Default: 4 * embedding_dim
+            self.ff_activation = gtrxl_params.get('ff_activation', 'relu')
             self.memory_length = gtrxl_params.get('memory_length', 64)
             self.gtrxl_dropout = gtrxl_params.get('dropout', 0.0)
             self.gru_gate_bias = gtrxl_params.get('gru_gate_bias', 2.0)
