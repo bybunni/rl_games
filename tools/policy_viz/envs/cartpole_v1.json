@@ -1,0 +1,7 @@
+{
+    "env_name": "CartPole-v1",
+    "obs_names": ["cart pos", "cart vel", "pole angle", "pole ang vel"],
+    "obs_ranges": [[-2.4, 2.4], [-3, 3], [-0.21, 0.21], [-3, 3]],
+    "obs_binary": [false, false, false, false],
+    "action_names": ["Push left", "Push right"]
+}

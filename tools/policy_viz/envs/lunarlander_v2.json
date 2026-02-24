@@ -1,0 +1,7 @@
+{
+    "env_name": "LunarLander-v2",
+    "obs_names": ["x pos", "y pos", "x vel", "y vel", "angle", "ang vel", "left leg", "right leg"],
+    "obs_ranges": [[-1, 1], [-1, 1], [-1, 1], [-1, 1], [-1, 1], [-1, 1], [0, 1], [0, 1]],
+    "obs_binary": [false, false, false, false, false, false, true, true],
+    "action_names": ["Do nothing", "Fire left", "Fire main", "Fire right"]
+}

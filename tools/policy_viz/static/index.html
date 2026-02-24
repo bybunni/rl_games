@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Sensitivity Analysis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Policy Sensitivity Analysis</h1>
+        <span id="env-label" class="env-label"></span>
+    </header>
+    <main>
+        <section id="inputs-panel" class="panel">
+            <h2>Observation Inputs</h2>
+            <div id="sliders-container"></div>
+            <div class="controls-row">
+                <button id="reset-obs-btn">Reset Obs</button>
+            </div>
+        </section>
+        <section id="outputs-panel" class="panel">
+            <h2>Policy Outputs</h2>
+            <div id="output-container">
+                <canvas id="action-chart" width="400" height="260"></canvas>
+                <div id="continuous-output" class="hidden"></div>
+            </div>
+            <div id="value-display" class="value-box">Value: —</div>
+            <div id="best-action-display" class="best-action-box">Best: —</div>
+            <div class="controls-row">
+                <select id="rnn-mode-select">
+                    <option value="stateless" selected>Stateless</option>
+                    <option value="stateful">Stateful</option>
+                </select>
+                <button id="reset-rnn-btn" class="hidden">Reset RNN</button>
+                <span id="step-counter" class="hidden">Step: 0</span>
+            </div>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

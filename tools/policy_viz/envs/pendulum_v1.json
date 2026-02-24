@@ -1,0 +1,7 @@
+{
+    "env_name": "Pendulum-v1",
+    "obs_names": ["cos(theta)", "sin(theta)", "angular vel"],
+    "obs_ranges": [[-1, 1], [-1, 1], [-8, 8]],
+    "obs_binary": [false, false, false],
+    "action_names": ["Torque"]
+}
