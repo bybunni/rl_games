@@ -102,6 +102,7 @@ class NetworkBuilder:
             for unit in units:
                 layers.append(dense_func(in_size, unit))
                 layers.append(self.activations_factory.create(activation))
+                in_size = unit
 
                 if not need_norm:
                     continue
@@ -111,7 +112,6 @@ class NetworkBuilder:
                     layers.append(torch.nn.LayerNorm(unit))
                 elif norm_func_name == 'batch_norm':
                     layers.append(torch.nn.BatchNorm1d(unit))
-                in_size = unit
 
             return nn.Sequential(*layers)
 
@@ -127,7 +127,14 @@ class NetworkBuilder:
                 act_layers = [self.activations_factory.create(activation) for i in range(len(units))]
                 return D2RLNet(input_size, units, act_layers, norm_func_name)
             else:
-                return self._build_sequential_mlp(input_size, units, activation, dense_func, norm_func_name = None,)
+                return self._build_sequential_mlp(
+                    input_size,
+                    units,
+                    activation,
+                    dense_func,
+                    norm_only_first_layer=norm_only_first_layer,
+                    norm_func_name=norm_func_name,
+                )
 
         def _build_conv(self, ctype, **kwargs):
             print('conv_name:', ctype)
@@ -513,7 +520,7 @@ class A2CBuilder(NetworkBuilder):
             self.is_d2rl = params['mlp'].get('d2rl', False)
             self.norm_only_first_layer = params['mlp'].get('norm_only_first_layer', False)
             self.value_activation = params.get('value_activation', 'None')
-            self.normalization = params.get('normalization', None)
+            self.normalization = params.get('normalization', params['mlp'].get('normalization', None))
             self.has_rnn = 'rnn' in params
             self.has_space = 'space' in params
             self.central_value = params.get('central_value', False)
@@ -802,7 +809,7 @@ class A2CResnetBuilder(NetworkBuilder):
             self.is_continuous = 'continuous' in params['space']
             self.is_multi_discrete = 'multi_discrete' in params['space']
             self.value_activation = params.get('value_activation', 'None')
-            self.normalization = params.get('normalization', None)
+            self.normalization = params.get('normalization', params['mlp'].get('normalization', None))
 
             if self.is_continuous:
                 self.space_config = params['space']['continuous']
@@ -989,7 +996,7 @@ class SACBuilder(NetworkBuilder):
             self.is_d2rl = params['mlp'].get('d2rl', False)
             self.norm_only_first_layer = params['mlp'].get('norm_only_first_layer', False)
             self.value_activation = params.get('value_activation', 'None')
-            self.normalization = params.get('normalization', None)
+            self.normalization = params.get('normalization', params['mlp'].get('normalization', None))
             self.has_space = 'space' in params
             self.value_shape = params.get('value_shape', 1)
             self.central_value = params.get('central_value', False)
